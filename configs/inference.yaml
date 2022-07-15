@@ -3,4 +3,4 @@ data:
 model:
     mode: inference
     enable_audio: False
-    free_styler_path: /apdcephfs/share_1290939/feiiyin/TH/StyleHEAT_result/train_video_styleheat/epoch_00010_iteration_000023000_checkpoint.pt
+    free_styler_path: checkpoints/StyleHEAT_visual.pt
