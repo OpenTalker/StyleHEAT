@@ -35,8 +35,6 @@ import dlib
 class Croper:
     def __init__(self):
         # download model from: http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2
-        # self.predictor = dlib.shape_predictor(
-        #     '/apdcephfs/share_1290939/feiiyin/face-generation/notebook/shape_predictor_68_face_landmarks.dat')
         self.predictor = dlib.shape_predictor(
             '/home/yf/TH/FreeStyle/shape_predictor_68_face_landmarks.dat')
 
@@ -217,7 +215,7 @@ def run(data):
 
 
 def get_data_path(video_dir):
-    eg_video_files = ['/apdcephfs/share_1290939/feiiyin/data/WRA/mp4/AdamKinzinger1_0.mp4']
+    eg_video_files = ['mp4/AdamKinzinger1_0.mp4']
     # filenames = list()
     # VIDEO_EXTENSIONS_LOWERCASE = {'mp4'}
     # VIDEO_EXTENSIONS = VIDEO_EXTENSIONS_LOWERCASE.union({f.upper() for f in VIDEO_EXTENSIONS_LOWERCASE})
@@ -249,13 +247,6 @@ if __name__ == '__main__':
     parser.add_argument('--uplimit', type=int, default=100)
     parser.add_argument('--option', type=str, default='video')
 
-    # root = '/apdcephfs/share_1290939/feiiyin/data/HDTF'
-    # cmd = f'--input_dir {root}/video/ ' \
-    #       f'--output_dir {root}/crop_video/ ' \
-    #       '--device_ids 0 ' \
-    #       '--workers 2 ' \
-    #       '--option video ' \
-    #       '--uplimit 500 '
     root = '/home/yf/TH/data/HDTF_25/'
     cmd = f'--input_dir {root}/video/ ' \
           f'--output_dir {root}/crop_video/ ' \

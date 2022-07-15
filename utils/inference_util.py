@@ -29,12 +29,6 @@ def get_intuitive_control():
     expression = torch.load('./docs/demo/intuitive_edit/expression.pth')
     for item in ['expression_center', 'expression_mouth', 'expression_eyebrow', 'expression_eyes']:
         control_dict[item] = expression[item]
-    # expression = loadmat('/apdcephfs/share_1290939/feiiyin/TH/PIRender_code/comparison_experiment/intuitive_control/expression.mat')
-    # for item in ['expression_center', 'expression_mouth', 'expression_eyebrow', 'expression_eyes']:
-    #     control_dict[item] = torch.tensor(expression[item])[0]
-    # eye = '/apdcephfs/share_1290939/feiiyin/TH/PIRender_code/comparison_experiment/intuitive_control/eye1.npy'
-    # eye = torch.tensor(np.load(eye))[0]
-    # control_dict['expression_eyes'] = eye
 
     sort_rot_control = [
         'rotation_left_x', 'rotation_center',
@@ -71,8 +65,6 @@ def hfgi_inversion(generator, source_image, args, batch_size=1, inv_path=None):
                    wx.expand(batch_size, 18, 512), \
                    fx.expand(batch_size, 512, 64, 64), \
                    None
-        # tensor2img(ix).save('/apdcephfs/share_1290939/feiiyin/TH/StyleHEAT/docs/demo/output/1.jpg')
-        # assert False
     else:
         ix, wx, fx, ada_condition_x = generator.generator.inverse(source_image)
         inv_data = ix.expand(batch_size, 3, 256, 256), \
@@ -129,66 +121,6 @@ def hfgi_inversion(generator, source_image, args, batch_size=1, inv_path=None):
 #     return inv_data
 
 
-
-def build_history_file_list():
-    file_list = [
-        'RD_Radio34_003_img_20',
-        'RD_Radio34_003_img_40',
-        'RD_Radio34_003_img_100',
-        'RD_Radio34_003_img_180',
-        'RD_Radio34_003_img_280',
-        'RD_Radio34_003_img_320',
-        'RD_Radio34_003_img_360',
-        'RD_Radio34_003_img_420',
-        'RD_Radio34_003_img_560',
-        'RD_Radio34_003_img_580',
-        'RD_Radio34_003_img_600',
-        'RD_Radio34_003_img_720',
-        'RD_Radio34_003_img_740',
-        'RD_Radio34_003_img_760',
-        'RD_Radio34_003_img_780',
-        'RD_Radio34_003_img_860',
-        'RD_Radio34_007_img_281',
-        'RD_Radio34_007_img_761',
-        'RD_Radio34_007_img_761',
-        'RD_Radio34_009_img_382',
-        'RD_Radio34_009_img_402',
-        'WRA_BobCorker_000_img_4',
-        'WRA_BobCorker_000_img_84',
-        'WRA_BobCorker_000_img_204',
-        'WRA_BobCorker_000_img_264',
-        'WRA_BobCorker_000_img_324',
-        'WRA_BobCorker_000_img_404',
-        'WRA_BobCorker_000_img_444',
-        'WRA_BobCorker_000_img_484',
-        'WRA_BobCorker_000_img_524',
-        'WRA_BobCorker_000_img_544',
-        'WRA_BobCorker_000_img_564',
-        'WRA_BobCorker_000_img_684',
-        'WRA_BobCorker_000_img_764',
-        'WRA_BobCorker_000_img_904',
-        'WRA_CandiceMiller0_000_img_85',
-        'WRA_CandiceMiller0_000_img_285',
-        'WRA_CandiceMiller0_000_img_345',
-        'WRA_CandiceMiller0_000_img_365',
-        'WRA_CandiceMiller0_000_img_385',
-        'WRA_CandiceMiller0_000_img_505',
-        'WRA_CandiceMiller0_000_img_545',
-    ]
-    video_list = []
-    image_list = []
-    video_root = '/apdcephfs/share_1290939/feiiyin/TH/visual_result/gt/sr_video'
-    image_root = '/apdcephfs/share_1290939/feiiyin/TH/visual_result/gt/image'
-    for i in range(len(file_list)):
-        pp = file_list[i].split('_img_')
-        video = pp[0] + '.mp4'
-        image = pp[1] + '.jpg'
-        video_list.append(os.path.join(video_root, video))
-        image_list.append(os.path.join(image_root, image))
-    print(f'Eg. {video_list[:2]}, {image_list[:2]}')
-    return video_list, image_list
-
-
 def build_inference_dataset(args, opt):
     model_3dmm = None
     if args.if_extract:
@@ -221,7 +153,6 @@ def build_inference_dataset(args, opt):
                 image_list = [args.image_source]
         else:
             image_list = None
-        # video_list, image_list = build_history_file_list()
         dataset = TempVideoDataset(
             video_list=video_list, model_3dmm=model_3dmm, if_align=args.if_align,
             cross_id=args.cross_id, image_list=image_list, resize=1024)

@@ -7,39 +7,6 @@ from PIL import Image
 from torchvision import transforms
 
 
-# shape_predictor_path = '/apdcephfs/share_1290939/feiiyin/face-generation/notebook/shape_predictor_68_face_landmarks.dat'
-# predictor = dlib.shape_predictor(shape_predictor_path)
-#
-#
-# def get_landmark(img=None, filepath=None):
-#     """get landmark with dlib
-#     :return: np.array shape=(68, 2)
-#     """
-#     detector = dlib.get_frontal_face_detector()
-#
-#     if img is None:
-#         # img = dlib.load_rgb_image(filepath)
-#         return None
-#     dets = detector(img, 1)
-#
-#     #     print("Number of faces detected: {}".format(len(dets)))
-#     #     for k, d in enumerate(dets):
-#     if dets is None or len(dets) == 0:
-#         return None
-#     d = dets[0]
-#     # Get the landmarks/parts for the face in box d.
-#     shape = predictor(img, d)
-#     #         print("Part 0: {}, Part 1: {} ...".format(shape.part(0), shape.part(1)))
-#
-#     t = list(shape.parts())
-#     a = []
-#     for tt in t:
-#         a.append([tt.x, tt.y])
-#     lm = np.array(a)
-#     # lm is a shape=(68,2) np.array
-#     return lm
-
-
 def align_face_single(img, lm, output_size=1024):
     """
     :param img: PIL Image

@@ -5,13 +5,6 @@ import torch
 
 detector = face_alignment.FaceAlignment(face_alignment.LandmarksType._2D)
 
-def get_mean_landmark():
-    mean_landmark_path = '/apdcephfs/share_1290939/feiiyin/TH/visual_result/gt/image/1.jpg'
-    from PIL import Image
-    image = np.array(Image.open(mean_landmark_path))
-    mean_landmark = detector.get_landmarks_from_image(image)[0]
-    return mean_landmark
-
 mean_landmark = np.array([[264., 460.],
        [264., 540.],
        [284., 599.],

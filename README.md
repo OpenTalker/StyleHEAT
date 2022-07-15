@@ -40,8 +40,8 @@ Please download our [pre-trained model](https://drive.google.com/drive/folders/1
 |checkpoints/stylegan2_d_256.pth | Pre-trained StyleGAN discriminator.
 |checkpoints/model_ir_se50.pth | Pre-trained id-loss discriminator.
 |checkpoints/StyleHEAT_visual.pt | Pre-trained StyleHEAT model.
-|checkpoints/BFM.zip | 3DMM library. (Note the zip file should be unzipped to BFM/.)
-|checkpoints/epoch_20.pth | Pre-trained 3DMM extractor.
+|checkpoints/BFM | 3DMM library. (Note the zip file should be unzipped to BFM/.)
+|checkpoints/Deep3D/epoch_20.pth | Pre-trained 3DMM extractor.
 
 We also provide some example videos along with their corresponding 3dmm parameters in [videos.zip](https://drive.google.com/drive/folders/1-m47oPsa3kxjgK5eSJ8g8sHzG4zr2oRc?usp=sharing).
 Please unzip and put them in `docs/demo/videos/` for later inference.

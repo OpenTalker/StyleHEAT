@@ -67,7 +67,7 @@ networkx==2.6.3
 notebook==6.4.5
 numba==0.54.1
 numpy==1.19.0
-nvdiffrast @ file:///apdcephfs/share_1290939/feiiyin/TH/PIRender/Deep3DFaceRecon_pytorch/nvdiffrast
+nvdiffrast
 oauthlib==3.1.1
 olefile==0.46
 opencv-python==3.4.9.33

@@ -66,7 +66,6 @@ class EmbeddingLossBuilder(nn.Module):
     def load_PCA_model(self):
         device = 'cuda'
         PCA_path = PRETRAINED_MODELS_PATH['FFHQ_PCA']
-        # PCA_path = '/apdcephfs/share_1290939/feiiyin/TH/Barbershop/pretrained_models/ffhq_PCA.npz'
 
         PCA_model = np.load(PCA_path)
         self.X_mean = torch.from_numpy(PCA_model['X_mean']).float().to(device)

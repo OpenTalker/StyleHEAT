@@ -14,14 +14,20 @@ from PIL import Image
 import numpy as np
 from third_part.Deep3DFaceRecon_pytorch.util.load_mats import load_lm3d
 import torch
+from configs.path import PRETRAINED_MODELS_PATH
 
 
 class Extract3dmm:
 
     def __init__(self):
-        cmd = '--checkpoints_dir /apdcephfs/share_1290939/feiiyin/TH/PIRender_bak/Deep3DFaceRecon_pytorch/checkpoints \
-               --bfm_folder /apdcephfs/share_1290939/feiiyin/TH/PIRender_bak/Deep3DFaceRecon_pytorch/BFM --name=model_name \
-               --epoch=20  --img_folder=temp'
+        bfm_path = PRETRAINED_MODELS_PATH['BFM']
+        deep3d_path = PRETRAINED_MODELS_PATH['3DMM']
+        deep3d_path = os.path.dirname(deep3d_path)
+        deep3d_dir = os.path.dirname(deep3d_path)
+        deep3d_name = os.path.basename(deep3d_path)
+        cmd = f'--checkpoints_dir {deep3d_dir} ' \
+            f'--bfm_folder {bfm_path} --name={deep3d_name} ' \
+            f'--epoch=20  --img_folder=temp'
         opt = TestOptions(cmd_line=cmd).parse()  # get test options
 
         self.model = create_model(opt)

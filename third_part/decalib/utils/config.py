@@ -10,7 +10,7 @@ cfg = CN()
 
 # abs_deca_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 # cfg.deca_dir = abs_deca_dir
-cfg.deca_dir = '/apdcephfs/share_1290939/feiiyin/TH/DECA/'
+cfg.deca_dir = 'Custom_DECA_directory/'
 cfg.device = 'cuda'
 cfg.device_id = '0'
 

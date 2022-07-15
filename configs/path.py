@@ -16,4 +16,7 @@ PRETRAINED_MODELS_PATH = {
     'styleheat': 'checkpoints/StyleHEAT_visual.pt',
     # id_loss
     'irse50': 'checkpoints/model_ir_se50.pth',
+    # 3DMM
+    'BFM': 'checkpoints/BFM',
+    '3DMM': 'checkpoints/Deep3D/epoch_20.pth',
 }
