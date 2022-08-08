@@ -1,6 +1,6 @@
 # StyleHEAT: One-Shot High-Resolution Editable Talking Face Generation via Pretrained StyleGAN (ECCV 2022)
 
-[paper](https://arxiv.org/pdf/2203.04036.pdf) | [project website](https://FeiiYin.github.io/StyleHEAT/) | [colab](https://FeiiYin.github.io/StyleHEAT/)
+[paper](https://arxiv.org/pdf/2203.04036.pdf) | [project website](https://FeiiYin.github.io/StyleHEAT/)
 
   
 <img src="docs/images/402_poster.jpg" width="800px"/> 
