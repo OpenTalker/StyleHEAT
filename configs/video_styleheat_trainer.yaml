@@ -1,0 +1,70 @@
+distributed: True
+image_to_tensorboard: False
+snapshot_save_iter: 20000
+snapshot_save_epoch: 1
+snapshot_save_start_iter: 10000
+snapshot_save_start_epoch: 0
+image_save_iter: 1000
+max_epoch: 8
+logging_iter: 200
+results_dir: ./eval_results
+
+
+gen_optimizer:
+    type: adam
+    lr: 0.0001
+    adam_beta1: 0.5
+    adam_beta2: 0.999
+    lr_policy:
+        iteration_mode: True
+        type: step
+        step_size: 300000
+        gamma: 0.2
+
+trainer:
+    type: trainers.video_styleheat_trainer::VideoStyleHEATTrainer
+    pretrain_warp_iteration: 200000
+    loss_weight:
+      weight_perceptual_warp: 0.02
+      weight_perceptual_final: 0.2
+      weight_perceptual_regular: 0.01
+      weight_gan_loss: 1.0
+      weight_local_loss: 2
+    vgg_param_warp:
+      network: vgg19
+      layers: ['relu_1_1', 'relu_2_1', 'relu_3_1', 'relu_4_1', 'relu_5_1']
+      use_style_loss: False
+      num_scales: 4
+    vgg_param_final:
+      network: vgg19
+      layers: ['relu_1_1', 'relu_2_1', 'relu_3_1', 'relu_4_1', 'relu_5_1']
+      use_style_loss: True
+      num_scales: 4      
+      style_to_perceptual: 250
+    init:
+      type: 'normal'
+      gain: 0.02
+
+
+model:
+    type: models.styleheat.styleheat::StyleHEAT
+    mode: train_visual_refine
+    enable_audio: False
+    visual_warper_path: ./checkpoints/video_warper.pth
+    path:
+    optimized_param: calibrator,video_warper
+    from_scratch_param: calibrator
+
+
+# Data options.
+data:
+    type: data.video_dataset::VideoDataset
+    path: # HDTFPATH_TOBEMODIFIED
+    resolution: 512
+    semantic_radius: 13
+    train:
+      batch_size: 4
+      distributed: True
+    val:
+      batch_size: 4
+      distributed: True

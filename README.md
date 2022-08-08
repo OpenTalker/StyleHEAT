@@ -109,6 +109,7 @@ Audio Reenactment
 ```
 TODO
 ```
+-->
 
 #### Training
 
@@ -120,21 +121,26 @@ to download and pre-process the VoxCelebA dataset.
 2. To train the whole framework, please follow [HDTF](https://github.com/universome/HDTF)
 to download the HDTF dataset and see [HDTF-preprocessing](utils/data_preprocess/README.md) to pre-process the dataset.
 
+3. Please follow [PIRenderer](https://github.com/RenYurui/PIRender) to extract the 3DMM parameters and prepare all the data into lmdb files. 
+
+<!--
 Or you can directly download the [HDTF-processed]() to get the processed demo dataset.  
+-->
 
 Training include 2 stages.
 
 1. Train VideoWarper
-Please follow the [PIRenderer](https://github.com/RenYurui/PIRender) to pre-process the VoxCelebA dataset and train the WarpingNetwork 
-which can reenactment images with 3dmm parameters.
+```
+bash bash/train_video_warper.sh
+```
+
 
 2. Train Video Calibrator
-Please change the hyper-parameter `data::path` in `video_styleheat_trainer.yaml` to the HDTF-lmdb dataset
-and run the following script.
 ```
 bash bash/train_video_styleheat.sh
 ```
--->
+
+Note several path hyper-parameter of dataset need to be modified and then run the script.
 
 ## Citation
 If you find this work useful for your research, please cite:

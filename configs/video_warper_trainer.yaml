@@ -1,0 +1,58 @@
+distributed: True
+image_to_tensorboard: True
+snapshot_save_iter: 20000
+snapshot_save_epoch: 2
+snapshot_save_start_iter: 20000
+snapshot_save_start_epoch: 0
+image_save_iter: 1000
+max_epoch: 200
+logging_iter: 500
+results_dir: ./eval_results
+
+
+gen_optimizer:
+    type: adam
+    lr: 0.0001
+    adam_beta1: 0.5
+    adam_beta2: 0.999
+    lr_policy:
+        iteration_mode: True
+        type: step
+        step_size: 300000
+        gamma: 0.2
+
+trainer:
+    type: trainers.video_warper_trainer::VideoWarperTrainer
+    pretrain_warp_iteration: 200000
+    loss_weight:
+      weight_perceptual_warp: 1
+      weight_perceptual_warp_middle: 0.5
+    vgg_param_warp:
+      network: vgg19
+      layers: ['relu_1_1', 'relu_2_1', 'relu_3_1', 'relu_4_1', 'relu_5_1']
+      use_style_loss: False
+      num_scales: 4
+    init:
+      type: 'normal'
+      gain: 0.02
+
+
+model:
+    type: models.styleheat.mirror_warper::MirrorWarper
+    mode: train_video_warper
+    optimized_param: all
+    from_scratch_param: all
+
+
+# Data options.
+data:
+    type: data.vox_dataset::VoxDataset
+    path: # VOXPATH_TOBEMODIFIED
+    resolution: 256
+    semantic_radius: 13
+    train:
+      batch_size: 16
+      distributed: True
+    val:
+      batch_size: 16
+      distributed: True
