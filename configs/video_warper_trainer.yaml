@@ -38,7 +38,7 @@ trainer:
 
 
 model:
-    type: models.styleheat.mirror_warper::MirrorWarper
+    type: models.styleheat.warper::VideoWarper
     mode: train_video_warper
     optimized_param: all
     from_scratch_param: all
