@@ -56,7 +56,7 @@ Please unzip and put them in `docs/demo/videos/` for later inference.
 
 #### Inference
 
-Same-Identity Reenactment with a video.
++ Same-Identity Reenactment with a video.
 ```
 python inference.py \
  --config configs/inference.yaml \
@@ -64,7 +64,7 @@ python inference.py \
  --output_dir=./docs/demo/output --if_extract
 ```
 
-Cross-Identity Reenactment with a single image and a video.
++ Cross-Identity Reenactment with a single image and a video.
 ```
 python inference.py \
  --config configs/inference.yaml \
@@ -87,7 +87,7 @@ Or you can first extract the 3dmm parameters with the script `TODO.sh` and save 
 
 If you only need to edit the expression without modifying the pose, please specify `--edit_expression_only`.  
 
-Intuitive Editing. 
++ Intuitive Editing. 
 ```
 python inference.py \
  --config configs/inference.yaml \
@@ -99,7 +99,7 @@ python inference.py \
 ```
 The 3dmm parameters of the images can also be pre-extracted or online-extracted with the parameter `--if_extract`.
 
-Attribute Editing.
++ Attribute Editing.
 ```
 python inference.py \
  --config configs/inference.yaml \
@@ -118,7 +118,7 @@ Audio Reenactment
 TODO
 ```
 -->
-Audio Reenactment.
++ Audio Reenactment.
 
 Please first install SadTalker in the folder of `third_part` as the format of `third_part/SadTalker`.
 Download its pre-trained checkpoints according to their instructions.
@@ -137,7 +137,7 @@ python inference.py \
 
 #### Training
 
-Data preprocessing.
++ Data preprocessing.
 
 1. To train the VideoWarper, please follow [video-preprocessing](https://github.com/AliaksandrSiarohin/video-preprocessing)
 to download and pre-process the VoxCelebA dataset.
