@@ -65,7 +65,7 @@ class TempVideoDataset:
         self.cross_id = cross_id
         self.image_list = image_list
         self.if_align = if_align
-        if self.cross_id and len(self.video_list) != len(self.image_list):
+        if self.cross_id and len(self.video_list) != len(self.image_list) and len(self.video_list) > 0:
             self.video_list = self.video_list * (len(self.image_list) // len(self.video_list) + 1)
             self.video_list = self.video_list[:len(self.image_list)]
 
@@ -83,27 +83,31 @@ class TempVideoDataset:
         self.croper = Croper()
 
     def __len__(self):
-        return len(self.video_list)
+        if len(self.video_list) > 0:
+            return len(self.video_list)
+        else:
+            return len(self.image_list)
 
-    def data_preprocess(self, video_path, image_path=None):
+    def data_preprocess(self, video_path=None, image_path=None):
         # Hard code; Bad writing
-        video_name = os.path.basename(video_path).split('.')[0]
-        frames_pil = video_util.read_video(video_path, resize=256)
+        if video_path is not None:
+            video_name = os.path.basename(video_path).split('.')[0]
+            frames_pil = video_util.read_video(video_path, resize=256)
 
-        save_3dmm_path = os.path.join(os.path.dirname(video_path), '3dmm', '3dmm_' + video_name + '.npy')
-        if not os.path.exists(save_3dmm_path):
-            os.makedirs(os.path.join(os.path.dirname(video_path), '3dmm'), exist_ok=True)
-            lm_np = get_landmark(frames_pil)
+            save_3dmm_path = os.path.join(os.path.dirname(video_path), '3dmm', '3dmm_' + video_name + '.npy')
+            if not os.path.exists(save_3dmm_path):
+                os.makedirs(os.path.join(os.path.dirname(video_path), '3dmm'), exist_ok=True)
+                lm_np = get_landmark(frames_pil)
 
-            frames_pil = self.croper.crop(frames_pil, lm_np)
-            lm_np = get_landmark(frames_pil)
+                frames_pil = self.croper.crop(frames_pil, lm_np)
+                lm_np = get_landmark(frames_pil)
 
-            coeff_3dmm = self.model_3dmm.get_3dmm(frames_pil, lm_np)
-            # print(coeff_3dmm.shape)
-            np.save(save_3dmm_path, coeff_3dmm)
+                coeff_3dmm = self.model_3dmm.get_3dmm(frames_pil, lm_np)
+                # print(coeff_3dmm.shape)
+                np.save(save_3dmm_path, coeff_3dmm)
 
-        coeff_3dmm = np.load(save_3dmm_path, allow_pickle=True)
-        coeff_3dmm = torch.from_numpy(coeff_3dmm)
+            coeff_3dmm = np.load(save_3dmm_path, allow_pickle=True)
+            coeff_3dmm = torch.from_numpy(coeff_3dmm)
 
         if self.cross_id and image_path is not None:
             src_image_pil = Image.open(image_path).convert("RGB")  # prevent png exist channel error
@@ -136,9 +140,9 @@ class TempVideoDataset:
             'source_align': src_align_pil,
             'source_image': src_image_pil,
             'source_3dmm': source_3dmm,
-            'frames': frames_pil,
-            'coeff_3dmm': coeff_3dmm,
-            'video_name': video_name
+            'frames': frames_pil if video_path is not None else None,
+            'coeff_3dmm': coeff_3dmm if video_path is not None else None,
+            'video_name': video_name if video_path is not None else None
         }
 
     def transform_semantic(self, semantic, frame_index):
@@ -165,33 +169,43 @@ class TempVideoDataset:
     def load_next_video(self):
         data = {}
         self.video_index += 1
-        video_path = self.video_list[self.video_index]
 
-        if self.cross_id:
-            image_path = self.image_list[self.video_index]
-            image_name = os.path.basename(image_path).split('.')[0]
+        if len(self.video_list) > 0:
+            video_path = self.video_list[self.video_index]
 
-            video_data = self.data_preprocess(video_path, image_path)
+            if self.cross_id:
+                image_path = self.image_list[self.video_index]
+                image_name = os.path.basename(image_path).split('.')[0]
 
-            data['image_name'] = image_name
-            data['video_name'] = f'{video_data["video_name"]}_{image_name}'
+                video_data = self.data_preprocess(video_path, image_path)
+
+                data['image_name'] = image_name
+                data['video_name'] = f'{video_data["video_name"]}_{image_name}'
+            else:
+                video_data = self.data_preprocess(video_path)
+                data['video_name'] = video_data['video_name']
         else:
-            video_data = self.data_preprocess(video_path)
-            data['video_name'] = video_data['video_name']
+            if self.cross_id:
+                image_path = self.image_list[self.video_index]
+                image_name = os.path.basename(image_path).split('.')[0]
+
+                video_data = self.data_preprocess(None, image_path)
+                data['video_name'] = data['image_name'] = image_name
 
         data['source_image'] = self.image_transform(video_data['source_image'])
         data['source_align'] = self.image_transform(video_data['source_align'])
         data['source_semantics'] = video_data['source_3dmm']
 
-        frames_pil = video_data['frames']
-        frames = [self.transform(i) for i in frames_pil]
-        frames = torch.stack(frames)
+        if len(self.video_list) > 0:
+            frames_pil = video_data['frames']
+            frames = [self.transform(i) for i in frames_pil]
+            frames = torch.stack(frames)
 
-        data['target_image'] = frames
-        data['target_semantics'] = []
-        semantics_numpy = video_data['coeff_3dmm']
+            data['target_image'] = frames
+            data['target_semantics'] = []
+            semantics_numpy = video_data['coeff_3dmm']
 
-        for frame_index in range(len(frames)):
-            data['target_semantics'].append(self.transform_semantic(semantics_numpy, frame_index))
+            for frame_index in range(len(frames)):
+                data['target_semantics'].append(self.transform_semantic(semantics_numpy, frame_index))
         return data
 

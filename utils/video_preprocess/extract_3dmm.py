@@ -28,8 +28,9 @@ class Extract3dmm:
         cmd = f'--checkpoints_dir {deep3d_dir} ' \
             f'--bfm_folder {bfm_path} --name={deep3d_name} ' \
             f'--epoch=20  --img_folder=temp'
+        
         opt = TestOptions(cmd_line=cmd).parse()  # get test options
-
+        
         self.model = create_model(opt)
         self.model.setup(opt)
         self.model.device = 'cuda'

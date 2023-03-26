@@ -5,6 +5,12 @@
   
 <img src="docs/images/402_poster.jpg" width="800px"/> 
 
+## News
+
+We incorporate [SadTalker](https://github.com/Winfredy/SadTalker) into our framework to support audio-driven talking head. Thanks for their awesome work!
+
+We add a script for pre-processing checkpoints in `bash/download.sh`.
+
  
 ## Abstract
 
@@ -26,6 +32,8 @@ pip install -r requirements
 ## Quick Start
 
 #### Pretrained Models
+
+Please directly using `bash bash/download.sh` to pre-process the checkpoints.
 
 Please download our [pre-trained model](https://drive.google.com/drive/folders/1-m47oPsa3kxjgK5eSJ8g8sHzG4zr2oRc?usp=sharing) and put it in ./checkpoints.
 
@@ -62,7 +70,7 @@ python inference.py \
  --config configs/inference.yaml \
  --video_source=./docs/demo/videos/RD_Radio34_003_512.mp4 \
  --image_source=./docs/demo/images/100.jpg \
- --cross_id \
+ --cross_id --if_extract \
  --output_dir=./docs/demo/output
 ```
 The `--video_source` and `--image_source` can be specified as either a single file or a folder.
@@ -110,6 +118,22 @@ Audio Reenactment
 TODO
 ```
 -->
+Audio Reenactment.
+
+Please first install SadTalker in the folder of `third_part` as the format of `third_part/SadTalker`.
+Download its pre-trained checkpoints according to their instructions.
+Install the additional libraries with `pip install pydub==0.25.1 yacs==0.1.8 librosa==0.6.0 numba==0.48.0 resampy==0.3.1 imageio-ffmpeg==0.4.7`.
+Then you can run audio reenactment freely.
+
+```
+python inference.py \
+ --config configs/inference.yaml \
+ --audio_path=./docs/demo/audios/RD_Radio31_000.wav \
+ --image_source=./docs/demo/images/100.jpg \
+ --cross_id --if_extract \
+ --output_dir=./docs/demo/output \
+ --inversion_option=optimize
+```
 
 #### Training
 

@@ -2,5 +2,11 @@
 #.mtj.tmp/
 
 # Package Files #
-.idea
 *.mp4
+checkpoints/
+BFM/
+__pycache__
+__MACOSX
+*.zip
+docs/demo/
+third_part/SadTalker/

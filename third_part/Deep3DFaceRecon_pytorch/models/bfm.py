@@ -25,7 +25,7 @@ class SH:
 
 class ParametricFaceModel:
     def __init__(self, 
-                bfm_folder='./BFM', 
+                bfm_folder='./checkpoints/BFM', 
                 recenter=True,
                 camera_distance=10.,
                 init_lit=np.array([

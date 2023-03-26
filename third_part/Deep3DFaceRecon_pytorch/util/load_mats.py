@@ -39,7 +39,7 @@ def transferBFM09(bfm_folder='BFM'):
     texEV = original_BFM['texEV']  # eigen value
     texMU = original_BFM['texMU']  # mean texture
 
-    expPC, expEV = LoadExpBasis()
+    expPC, expEV = LoadExpBasis(bfm_folder)
 
     # transfer BFM09 to our face model
 

@@ -135,6 +135,23 @@ def build_inference_dataset(args, opt):
         else:
             image_list = [args.image_source]
         dataset = ImageDataset(image_list, model_3dmm)
+    elif args.audio_path is not None:
+        assert args.image_source is not None
+        if os.path.isdir(args.image_source):
+            image_list = sorted(glob.glob(f'{args.image_source}/*.jpg'))
+        else:
+            image_list = [args.image_source]
+        
+        if args.video_source is None:
+            video_list = []
+        elif os.path.isdir(args.video_source):
+            video_list = sorted(glob.glob(f'{args.video_source}/*.mp4'))
+        else:
+            video_list = [args.video_source]
+
+        dataset = TempVideoDataset(
+            video_list=video_list, model_3dmm=model_3dmm, if_align=args.if_align,
+            cross_id=args.cross_id, image_list=image_list, resize=1024)
     else:
         assert args.video_source is not None
 
@@ -160,9 +177,3 @@ def build_inference_dataset(args, opt):
     # print(f'Build dataset (extract 3DMM) time consuming: {end_time - start_time} second.')
     return dataset
 
-
-# id_list = [
-#     600, 40, 100, 120, 380, 840, 940, 181, 261, 281, 541, 601, 661, 941, 322, 342, 602, 642,
-#     # 662, 802, 743, 684, 884, 365, 505, 545, 166, 726, 507, 88, 288, 348, 149, 249, 629,
-#     # 969, 91, 571, 212, 196, 194, 316, 416, 456, 616, 896, 159, 559, 600
-# ]

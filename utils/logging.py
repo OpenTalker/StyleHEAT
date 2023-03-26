@@ -1,6 +1,6 @@
 import os
 import datetime
-
+from PIL import Image
 from utils.meters import set_summary_writer
 from utils.distributed import master_only_print as print
 from utils.distributed import master_only
@@ -45,3 +45,15 @@ def make_logging_dir(logdir, date_uid):
     loss_log_name = os.path.join(logdir, 'loss_log.txt')
     with open(loss_log_name, "a") as log_file:
         log_file.write('================ Training Loss (%s) ================\n' % date_uid)
+
+
+def tensor2im(var, vmin=-1, vmax=1):
+	# var shape: (3, H, W)
+	if len(var.shape) == 4:
+		var = var[0]
+	var = var.cpu().detach().transpose(0, 2).transpose(0, 1).numpy()
+	var = ((var - vmin) / (vmax - vmin))
+	var[var < 0] = 0
+	var[var > 1] = 1
+	var = var * 255
+	return Image.fromarray(var.astype('uint8'))
