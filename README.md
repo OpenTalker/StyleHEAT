@@ -5,7 +5,7 @@
   
 <img src="docs/images/402_poster.jpg" width="800px"/> 
 
-## News
+## News: Audio-Reenactment Module Incoporated
 
 We incorporate [SadTalker](https://github.com/Winfredy/SadTalker) into our framework to support audio-driven talking head. Thanks for their awesome work!
 
@@ -35,7 +35,7 @@ pip install -r requirements
 
 Please directly using `bash bash/download.sh` to pre-process the checkpoints.
 
-Please download our [pre-trained model](https://drive.google.com/drive/folders/1-m47oPsa3kxjgK5eSJ8g8sHzG4zr2oRc?usp=sharing) and put it in ./checkpoints.
+Or you can manually download our [pre-trained model](https://drive.google.com/drive/folders/1-m47oPsa3kxjgK5eSJ8g8sHzG4zr2oRc?usp=sharing) and put it in ./checkpoints.
 
 | Model | Description
 | :--- | :----------
@@ -185,5 +185,6 @@ Thanks to
 [HFGI](https://github.com/Tengfei-Wang/HFGI), 
 [BaberShop](https://github.com/ZPdesu/Barbershop), 
 [GFP-GAN](https://github.com/TencentARC/GFPGAN), 
-[Pixel2Style2Pixel](https://github.com/eladrich/pixel2style2pixel) 
+[Pixel2Style2Pixel](https://github.com/eladrich/pixel2style2pixel),
+[SadTalker](https://github.com/Winfredy/SadTalker) 
 for sharing their code.
