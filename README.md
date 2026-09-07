@@ -5,7 +5,7 @@
   
 <img src="docs/images/402_poster.jpg" width="800px"/> 
 
-## News: Audio-Reenactment Module Incoporated
+## News: Audio-Reenactment Module Incorporated
 
 We incorporate [SadTalker](https://github.com/Winfredy/SadTalker) into our framework to support audio-driven talking head. Thanks for their awesome work!
 
